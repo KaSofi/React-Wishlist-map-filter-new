@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { data } from "./data";
+import "./App.css";
+import Buttons from "./Buttons";
+import ClothesFilter from "./ClothesFilter";
 
 function App() {
+  const [card, setCard] = useState(data);
+
+  const deleteAllButton = () => {
+    setCard([]);
+  };
+
+  const filterItems = (searchTerm) => {
+    let newFilterItems = data.filter((el) => el.searchTerm === searchTerm);
+    setCard(newFilterItems);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="ShopTitle">
+        <h1>WISH LIST</h1>
+        <h5>{card.length} items</h5>
+      </div>
+      <div>
+        <Buttons filterItems={filterItems} setCard={setCard} />
+        <ClothesFilter card={card} setCard={setCard} />
+      </div>
+      <div className="DeleteAllButton">
+        <button onClick={() => deleteAllButton()}>DELETE ALL</button>
+      </div>
     </div>
   );
 }
